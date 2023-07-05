@@ -1,6 +1,5 @@
-import 'package:demo_test/todo/bloc/todo_bloc.dart';
-import 'package:demo_test/todo/repository/todo_repository.dart';
-import 'package:demo_test/todo/screens/todo_list_screen.dart';
+import 'package:demo_test/what_todo/bloc/what_todo_bloc.dart';
+import 'package:demo_test/what_todo/screens/what_todo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,8 +20,8 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
-        create: (context) => TodoBloc(todoRepository: TodoRepositoryImpl()),
-        child: const TodoListScreen(),
+        create: (context) => WhatTodoBloc(),
+        child: const WhatTodoScreen(),
       ),
     );
   }
