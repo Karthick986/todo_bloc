@@ -1,4 +1,5 @@
 import 'package:demo_test/what_todo/bloc/what_todo_bloc.dart';
+import 'package:demo_test/what_todo/repository/todo_repository.dart';
 import 'package:demo_test/what_todo/screens/what_todo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,13 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Demo page',
+      title: 'Todo page',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
-        create: (context) => WhatTodoBloc(),
+        create: (context) => WhatTodoBloc(todoRepository: WhatTodoRepository()),
         child: const WhatTodoScreen(),
       ),
     );

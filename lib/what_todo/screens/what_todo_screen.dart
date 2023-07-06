@@ -13,7 +13,7 @@ class WhatTodoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     WhatTodoBloc whatTodoBloc = BlocProvider.of(context);
     whatTodoBloc.add(GetTodoEvent());
-    List<WhatTodoModel> whatTodoList = [];
+    List<TodoData> whatTodoList = [];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -37,16 +37,16 @@ class WhatTodoScreen extends StatelessWidget {
           child: BlocConsumer<WhatTodoBloc, WhatTodoStates>(
         listener: (BuildContext context, WhatTodoStates state) {
           if (state is GetTodoLoadedState) {
-            whatTodoList = state.whatTodoModel;
+            whatTodoList = state.whatTodoModel.todoList ?? [];
           }
           if (state is CreateTodoLoadedState) {
             Navigator.pop(context);
-            whatTodoList.add(state.whatTodoModel);
+            whatTodoList.add(state.todoData);
             whatTodoBloc.showSnackBar(context, "Added Successfully");
           }
           if (state is UpdateTodoLoadedState) {
             Navigator.pop(context);
-            whatTodoList[state.index] = state.whatTodoModel;
+            whatTodoList[state.index] = state.todoData;
             whatTodoBloc.showSnackBar(context, "Updated Successfully");
           }
           if (state is DeleteTodoLoadedState) {
@@ -65,34 +65,37 @@ class WhatTodoScreen extends StatelessWidget {
               child: Text(state.message),
             );
           }
-          return whatTodoList.isNotEmpty ? ListView.builder(
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(
-                  "${index + 1}. ${whatTodoList[index].todoName}",
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    whatTodoBloc.add(DeleteTodoEvent(todoIndex: index));
+          return whatTodoList.isNotEmpty
+              ? ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        "${index + 1}. ${whatTodoList[index].todoName}",
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          whatTodoBloc.add(DeleteTodoEvent(todoIndex: index));
+                        },
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                                value: whatTodoBloc,
+                                child: CreateUpdateDialog(
+                                  isUpdate: true,
+                                  todoData: whatTodoList[index],
+                                  index: index,
+                                )));
+                      },
+                    );
                   },
-                ),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => BlocProvider.value(
-                          value: whatTodoBloc,
-                          child: CreateUpdateDialog(
-                            isUpdate: true,
-                            whatTodoModel: whatTodoList[index],
-                            index: index,
-                          )));
-                },
-              );
-            },
-            itemCount: whatTodoList.length,
-          ) :
-          const Center(child: Text("Nothing to do"),);
+                  itemCount: whatTodoList.length,
+                )
+              : const Center(
+                  child: Text("Nothing to do"),
+                );
         },
       )),
     );

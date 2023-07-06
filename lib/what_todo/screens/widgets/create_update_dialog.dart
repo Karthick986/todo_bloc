@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateUpdateDialog extends StatelessWidget {
-  final WhatTodoModel? whatTodoModel;
+  final TodoData? todoData;
   final bool isUpdate;
   final int index;
 
-  const CreateUpdateDialog({super.key, required this.isUpdate,
-  this.whatTodoModel, required this.index});
+  const CreateUpdateDialog(
+      {super.key, required this.isUpdate, this.todoData, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +18,11 @@ class CreateUpdateDialog extends StatelessWidget {
     WhatTodoBloc whatTodoBloc = BlocProvider.of<WhatTodoBloc>(context);
 
     if (isUpdate) {
-      textEditingController.text = whatTodoModel!.todoName;
+      textEditingController.text = todoData!.todoName;
     }
 
     return AlertDialog(
-      content: Column(
+        content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         TextField(
@@ -35,18 +35,22 @@ class CreateUpdateDialog extends StatelessWidget {
             onPressed: () {
               if (textEditingController.text.isNotEmpty) {
                 if (isUpdate) {
-                  whatTodoBloc.add(UpdateTodoEvent(whatTodoModel: WhatTodoModel(
-                      todoId: whatTodoModel!.todoId,
-                      todoName: textEditingController.text,
-                  ), index: index));
+                  whatTodoBloc.add(UpdateTodoEvent(
+                      todoData: TodoData(
+                        todoId: todoData!.todoId,
+                        todoName: textEditingController.text,
+                      ),
+                      index: index));
                 } else {
-                  whatTodoBloc.add(CreateTodoEvent(whatTodoModel: WhatTodoModel(
-                      todoId: index,
-                      todoName: textEditingController.text,
+                  whatTodoBloc.add(CreateTodoEvent(
+                      todoData: TodoData(
+                    todoId: index,
+                    todoName: textEditingController.text,
                   )));
                 }
               }
-            }, child: Text(isUpdate ? "Update" : "Create"))
+            },
+            child: Text(isUpdate ? "Update" : "Create"))
       ],
     ));
   }
