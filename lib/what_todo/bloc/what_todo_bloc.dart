@@ -1,6 +1,7 @@
 import 'package:demo_test/what_todo/bloc/what_todo_events.dart';
 import 'package:demo_test/what_todo/bloc/what_todo_states.dart';
 import 'package:demo_test/what_todo/model/todo_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WhatTodoBloc extends Bloc<WhatTodoEvents, WhatTodoStates> {
@@ -39,8 +40,7 @@ class WhatTodoBloc extends Bloc<WhatTodoEvents, WhatTodoStates> {
     on<DeleteTodoEvent>((event, emit) {
       emit(TodoLoadingState());
       try {
-        emit(DeleteTodoLoadedState(message: "Deleted successfully",
-            index: event.todoIndex));
+        emit(DeleteTodoLoadedState(index: event.todoIndex));
       } catch (e) {
         emit(TodoErrorState(message: e.toString()));
       }
@@ -49,10 +49,15 @@ class WhatTodoBloc extends Bloc<WhatTodoEvents, WhatTodoStates> {
 
   List<WhatTodoModel> getDefaultTodoList() {
     return [
-      WhatTodoModel(todoId: 1, todoName: "Wake up @7pm"),
-      WhatTodoModel(todoId: 2, todoName: "Breakfast after brush"),
-      WhatTodoModel(todoId: 3, todoName: "Read books"),
-      WhatTodoModel(todoId: 4, todoName: "Start work"),
+      WhatTodoModel(todoId: 1, todoName: "Plan next day before sleep"),
+      WhatTodoModel(todoId: 2, todoName: "Wakeup early"),
+      WhatTodoModel(todoId: 3, todoName: "Read a book"),
+      WhatTodoModel(todoId: 4, todoName: "Start routine work"),
     ];
+  }
+
+  void showSnackBar(context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(text)));
   }
 }

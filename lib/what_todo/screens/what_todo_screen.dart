@@ -42,13 +42,16 @@ class WhatTodoScreen extends StatelessWidget {
           if (state is CreateTodoLoadedState) {
             Navigator.pop(context);
             whatTodoList.add(state.whatTodoModel);
+            whatTodoBloc.showSnackBar(context, "Added Successfully");
           }
           if (state is UpdateTodoLoadedState) {
             Navigator.pop(context);
             whatTodoList[state.index] = state.whatTodoModel;
+            whatTodoBloc.showSnackBar(context, "Updated Successfully");
           }
           if (state is DeleteTodoLoadedState) {
             whatTodoList.removeAt(state.index);
+            whatTodoBloc.showSnackBar(context, "Deleted Successfully");
           }
         },
         builder: (BuildContext buildContext, WhatTodoStates state) {

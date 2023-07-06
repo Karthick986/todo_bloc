@@ -19,7 +19,7 @@ class GetTodoLoadedState extends WhatTodoStates {
   GetTodoLoadedState({required this.whatTodoModel});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [whatTodoModel];
 }
 
 class CreateTodoLoadedState extends WhatTodoStates {
@@ -27,7 +27,7 @@ class CreateTodoLoadedState extends WhatTodoStates {
   CreateTodoLoadedState({required this.whatTodoModel});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [whatTodoModel];
 }
 
 class UpdateTodoLoadedState extends WhatTodoStates {
@@ -36,16 +36,15 @@ class UpdateTodoLoadedState extends WhatTodoStates {
   UpdateTodoLoadedState({required this.whatTodoModel, required this.index});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [index, whatTodoModel];
 }
 
 class DeleteTodoLoadedState extends WhatTodoStates {
   final int index;
-  final String message;
-  DeleteTodoLoadedState({required this.message, required this.index});
+  DeleteTodoLoadedState({required this.index});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [index];
 }
 
 class TodoErrorState extends WhatTodoStates {
@@ -53,5 +52,5 @@ class TodoErrorState extends WhatTodoStates {
   TodoErrorState({required this.message});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [message];
 }
