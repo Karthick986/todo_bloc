@@ -1,0 +1,18 @@
+[
+  {
+    "todoId":  1,
+    "todoName": "Plan next day before sleep"
+  },
+  {
+    "todoId":  2,
+    "todoName": "Wake up early"
+  },
+  {
+    "todoId":  3,
+    "todoName": "Read a book"
+  },
+  {
+    "todoId":  4,
+    "todoName": "Start routine work"
+  }
+]
